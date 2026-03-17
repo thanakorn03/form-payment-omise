@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ชำระด้วยบัตรเครดิต</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    body { background: #f5f5f5; }
+    .checkout-container { max-width: 400px; margin: 50px auto; }
+    .checkout-box { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .amount-display { font-size: 24px; color: #337ab7; font-weight: bold; margin-bottom: 20px; text-align: center; }
+    .form-group { margin-bottom: 15px; }
+    .form-control { height: 44px; }
+    .btn-pay { width: 100%; padding: 12px; font-size: 16px; }
+    .error-message { color: #d9534f; margin-top: 10px; min-height: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container checkout-container">
+    <div class="checkout-box">
+      <h3 class="text-center">ชำระด้วยบัตรเครดิต</h3>
+      <div class="amount-display">199.00 THB</div>
+      
+      <form id="checkout-form" action="checkout.php" method="POST">
+        <div class="form-group">
+          <label>หมายเลขบัตร</label>
+          <input type="text" data-name="cardNumber" class="form-control" placeholder="4242 4242 4242 4242" maxlength="19">
+        </div>
+        
+        <div class="form-group">
+          <label>ชื่อบนบัตร</label>
+          <input type="text" data-name="nameOnCard" class="form-control" placeholder="ชื่อตามบัตร">
+        </div>
+        
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>เดือนหมดอายุ</label>
+              <select data-name="expiryMonth" class="form-control">
+                <option value="">MM</option>
+                <option value="1">01</option>
+                <option value="2">02</option>
+                <option value="3">03</option>
+                <option value="4">04</option>
+                <option value="5">05</option>
+                <option value="6">06</option>
+                <option value="7">07</option>
+                <option value="8">08</option>
+                <option value="9">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label>ปีหมดอายุ</label>
+              <select data-name="expiryYear" class="form-control">
+                <option value="">YYYY</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>รหัส CVV</label>
+          <input type="text" data-name="securityCode" class="form-control" placeholder="123" maxlength="4">
+        </div>
+        
+        <div id="error-message" class="error-message text-center"></div>
+        
+        <button type="submit" class="btn btn-primary btn-pay">
+          <span class="glyphicon glyphicon-lock"></span> ชำระเงิน 199.00 THB
+        </button>
+        
+        <input type="hidden" name="omiseToken" />
+      </form>
+      
+      <div class="text-center" style="margin-top: 15px;">
+        <a href="index.html" class="text-muted">← กลับไปเลือกวิธีชำระเงิน</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.omise.co/omise.js"></script>
+  <script>
+    (function() {
+      'use strict';
+      
+      Omise.setPublicKey('pkey_test_66znrg3tfasdyeah7cs');
+      
+      var checkoutForm = document.getElementById('checkout-form');
+      checkoutForm.addEventListener('submit', submitHandler, false);
+      
+      function submitHandler(event) {
+        event.preventDefault();
+        
+        var cardInformation = {
+          name: document.querySelector('[data-name="nameOnCard"]').value,
+          number: document.querySelector('[data-name="cardNumber"]').value,
+          expiration_month: document.querySelector('[data-name="expiryMonth"]').value,
+          expiration_year: document.querySelector('[data-name="expiryYear"]').value,
+          security_code: document.querySelector('[data-name="securityCode"]').value
+        };
+        
+        if (!cardInformation.name || !cardInformation.number || !cardInformation.expiration_month || !cardInformation.expiration_year || !cardInformation.security_code) {
+          showError('กรุณากรอกข้อมูลให้ครบถ้วน');
+          return;
+        }
+        
+        Omise.createToken('card', cardInformation, function(statusCode, response) {
+          if (statusCode === 200) {
+            checkoutForm.omiseToken.value = response.id;
+            checkoutForm.submit();
+          } else {
+            console.error('Omise error', statusCode, response);
+            showError(response.message || 'ไม่สามารถสร้าง token ได้');
+          }
+        });
+      }
+      
+      function showError(message) {
+        var el = document.getElementById('error-message');
+        if (el) el.textContent = message;
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>เลือกวิธีชำระเงิน</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+    body { background: #f5f5f5; }
+    .payment-container { max-width: 500px; margin: 50px auto; }
+    .payment-box { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+    .amount-display { font-size: 32px; color: #337ab7; font-weight: bold; margin-bottom: 30px; }
+    .payment-btn { 
+      display: block; 
+      width: 100%; 
+      padding: 20px; 
+      margin: 15px 0; 
+      font-size: 18px;
+      border-radius: 8px;
+    }
+    .payment-btn .glyphicon { margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container payment-container">
+    <div class="payment-box">
+      <h2>เลือกวิธีชำระเงิน</h2>
+      <div class="amount-display">199.00 THB</div>
+      
+      <a href="creditcard.html" class="btn btn-primary payment-btn">
+        <span class="glyphicon glyphicon-credit-card"></span>
+        ชำระด้วยบัตรเครดิต / เดบิต
+      </a>
+      
+      <a href="promptpay.php" class="btn btn-success payment-btn">
+        <span class="glyphicon glyphicon-qrcode"></span>
+        ชำระด้วยพร้อมเพย์ (PromptPay)
+      </a>
+    </div>
+  </div>
+</body>
+</html>

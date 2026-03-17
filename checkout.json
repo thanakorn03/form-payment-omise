@@ -1,0 +1,71 @@
+{
+  "checkout": {
+    "form": {
+      "action": "/checkout.php",
+      "method": "POST"
+    },
+    "card": {
+      "number": {
+        "label": "Card Number",
+        "placeholder": "••••••••••••••••",
+        "dataName": "cardNumber"
+      },
+      "nameOnCard": {
+        "label": "Name on card",
+        "placeholder": "Full Name",
+        "dataName": "nameOnCard"
+      },
+      "expiry": {
+        "label": "Expiry date",
+        "month": {
+          "placeholder": "MM",
+          "dataName": "expiryMonth",
+          "options": [
+            { "value": "1", "label": "01" },
+            { "value": "2", "label": "02" },
+            { "value": "3", "label": "03" },
+            { "value": "4", "label": "04" },
+            { "value": "5", "label": "05" },
+            { "value": "6", "label": "06" },
+            { "value": "7", "label": "07" },
+            { "value": "8", "label": "08" },
+            { "value": "9", "label": "09" },
+            { "value": "10", "label": "10" },
+            { "value": "11", "label": "11" },
+            { "value": "12", "label": "12" }
+          ]
+        },
+        "year": {
+          "placeholder": "YYYY",
+          "dataName": "expiryYear",
+          "options": [
+            { "value": "2025", "label": "25" },
+            { "value": "2026", "label": "26" },
+            { "value": "2027", "label": "27" },
+            { "value": "2028", "label": "28" },
+            { "value": "2029", "label": "29" },
+            { "value": "2030", "label": "30" },
+            { "value": "2031", "label": "31" },
+            { "value": "2032", "label": "32" },
+            { "value": "2033", "label": "33" },
+            { "value": "2034", "label": "34" },
+            { "value": "2035", "label": "35" }
+          ]
+        }
+      },
+      "securityCode": {
+        "label": "Security code",
+        "placeholder": "123",
+        "dataName": "securityCode"
+      }
+    },
+    "button": {
+      "label": "Checkout"
+    },
+    "omise": {
+      "publicKey": "pkey_test_66znrg3tfasdyeah7cs",
+      "scriptUrl": "https://cdn.omise.co/omise.js",
+      "tokenFieldName": "omiseToken"
+    }
+  }
+}
