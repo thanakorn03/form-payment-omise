@@ -69,7 +69,7 @@ $qrCodeUrl = $charge['source']['scannable_code']['image']['download_uri'] ?? nul
       <div class="timer">หมดอายุใน: <span id="countdown">10:00</span></div>
       
       <hr>
-      <a href="payment.php" class="btn btn-default">ยกเลิก</a>
+      <a href="index.html" class="btn btn-default">ยกเลิก</a>
       <a href="check-status.php?charge_id=<?php echo htmlspecialchars($charge['id']); ?>" class="btn btn-primary">ตรวจสอบสถานะ</a>
     </div>
   </div>

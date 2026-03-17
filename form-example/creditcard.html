@@ -14,6 +14,18 @@
     .form-control { height: 44px; }
     .btn-pay { width: 100%; padding: 12px; font-size: 16px; }
     .error-message { color: #d9534f; margin-top: 10px; min-height: 20px; }
+    .card-type { 
+      position: absolute; 
+      right: 10px; 
+      top: 35px; 
+      font-size: 12px; 
+      font-weight: bold;
+    }
+    .card-input-wrapper { position: relative; }
+    .visa { color: #1a1f71; }
+    .mastercard { color: #eb001b; }
+    .amex { color: #006fcf; }
+    .jcb { color: #0066b2; }
   </style>
 </head>
 <body>
@@ -23,9 +35,10 @@
       <div class="amount-display">199.00 THB</div>
       
       <form id="checkout-form" action="checkout.php" method="POST">
-        <div class="form-group">
+        <div class="form-group card-input-wrapper">
           <label>หมายเลขบัตร</label>
-          <input type="text" data-name="cardNumber" class="form-control" placeholder="4242 4242 4242 4242" maxlength="19">
+          <input type="text" data-name="cardNumber" id="cardNumber" class="form-control" placeholder="4242 4242 4242 4242" maxlength="19">
+          <span id="cardType" class="card-type"></span>
         </div>
         
         <div class="form-group">
@@ -130,6 +143,38 @@
       function showError(message) {
         var el = document.getElementById('error-message');
         if (el) el.textContent = message;
+      }
+      
+      // จัดรูปแบบหมายเลขบัตรและตรวจสอบชนิดบัตร
+      var cardInput = document.getElementById('cardNumber');
+      var cardTypeDisplay = document.getElementById('cardType');
+      
+      cardInput.addEventListener('input', function(e) {
+        var value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/g, '');
+        var formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+        
+        // ตรวจสอบชนิดบัตร
+        var cardType = detectCardType(value);
+        cardTypeDisplay.textContent = cardType.name;
+        cardTypeDisplay.className = 'card-type ' + cardType.class;
+      });
+      
+      function detectCardType(number) {
+        if (number.match(/^4/)) {
+          return { name: 'VISA', class: 'visa' };
+        } else if (number.match(/^5[1-5]/)) {
+          return { name: 'MASTERCARD', class: 'mastercard' };
+        } else if (number.match(/^3[47]/)) {
+          return { name: 'AMEX', class: 'jcb' };
+        } else if (number.match(/^3[068]/)) {
+          return { name: 'DINERS', class: 'jcb' };
+        } else if (number.match(/^35/)) {
+          return { name: 'JCB', class: 'jcb' };
+        } else if (number.match(/^6/)) {
+          return { name: 'DISCOVER', class: 'jcb' };
+        }
+        return { name: '', class: '' };
       }
     })();
   </script>
